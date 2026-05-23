@@ -5,10 +5,14 @@ import ClockCard from "./components/ClockCard";
 import TimerCard from "./components/TimerCard";
 
 function App() {
+  // 탭에서 선택된 현재 화면 모드
   const [mode, setMode] = useState("clock");
+  // 실시간 시계에 표시할 현재 시간
   const [time, setTime] = useState(new Date());
+  // 타이머 모드에서 사용할 남은 시간(초)
   const [timerSeconds, setTimerSeconds] = useState(10);
 
+  // 1초마다 현재 시간을 갱신
   useEffect(() => {
     const timerId = setInterval(() => {
       setTime(new Date());
@@ -17,6 +21,7 @@ function App() {
     return () => clearInterval(timerId);
   }, []);
 
+  // timer 모드일 때만 카운트다운을 실행
   useEffect(() => {
     if (mode !== "timer") return;
 
@@ -34,6 +39,7 @@ function App() {
     return () => clearInterval(timerId);
   }, [mode]);
 
+  // 한국 시간대로 표기한다
   const formattedTime = time.toLocaleTimeString("ko-KR", {
     hour: "numeric",
     minute: "2-digit",
@@ -53,7 +59,6 @@ function App() {
         <h1 className="mt-2 text-xl font-extrabold text-[#4b2e1f]">
           실시간 시계 & 카운트다운 타이머
         </h1>
-        
         <p className="mt-3 text-sm text-[#6b4f3a]">
           마운트, 언마운트, cleanup 동작을 확인할 수 있는 예제입니다.
         </p>
@@ -61,6 +66,7 @@ function App() {
         <TabButtons mode={mode} setMode={setMode} />
         <ViewStatus mode={mode} />
 
+        {/* 현재 모드에 맞는 카드 컴포넌트를 보여준다. */}
         {mode === "clock" ? (
           <ClockCard time={formattedTime} />
         ) : (
