@@ -1,4 +1,4 @@
-import { act, useState } from "react";
+import { useState } from "react";
 import Image from "../assets/practice.jpg"
 
 export default function ProfilePage() {
