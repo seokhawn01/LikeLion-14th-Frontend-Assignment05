@@ -14,20 +14,33 @@ function App() {
 
   // 1초마다 현재 시간을 갱신
   useEffect(() => {
+    if (mode !== "clock") return;
+
+    console.log("시계보기 시작!");
+
     const timerId = setInterval(() => {
+      console.log("시계가 움직이는 중");
       setTime(new Date());
     }, 1000);
 
-    return () => clearInterval(timerId);
-  }, []);
+    return () => {
+      console.log("clearInterval로 시계 멈춤");
+      clearInterval(timerId);
+    };
+  }, [mode]);
 
   // timer 모드일 때만 카운트다운을 실행
   useEffect(() => {
     if (mode !== "timer") return;
 
+    console.log("타이머 시작!");
+    setTimerSeconds(10);
+
     const timerId = setInterval(() => {
+      console.log("타이머가 움직이는 중");
       setTimerSeconds((prev) => {
         if (prev <= 1) {
+          console.log("clearInterval로 타이머 멈춤");
           clearInterval(timerId);
           return 0;
         }
@@ -36,7 +49,10 @@ function App() {
       });
     }, 1000);
 
-    return () => clearInterval(timerId);
+    return () => {
+      console.log("clearInterval로 타이머 멈춤");
+      clearInterval(timerId);
+    };
   }, [mode]);
 
   // 한국 시간대로 표기한다
